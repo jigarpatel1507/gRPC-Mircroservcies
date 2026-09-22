@@ -340,4 +340,5 @@ For in-depth explanations and diagrams, review the dedicated guides in `docs/`:
 - [docs/GRPC-BASICS.md](docs/GRPC-BASICS.md) — gRPC fundamentals, HTTP/2 multiplexing, Protobuf vs JSON.
 - [docs/API-MAP.md](docs/API-MAP.md) — Complete specification of methods, fields, and status codes.
 - [docs/AUTH-FLOW.md](docs/AUTH-FLOW.md) — Deep dive into gRPC Metadata authentication.
+- [docs/POSTMAN-TESTING.md](docs/POSTMAN-TESTING.md) — Step-by-step guide to testing all methods in Postman.
 - [docs/DEMO-GUIDE.md](docs/DEMO-GUIDE.md) — 10-15 minute presentation guide with slide timings and script.
