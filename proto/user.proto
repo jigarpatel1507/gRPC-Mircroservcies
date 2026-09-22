@@ -1,0 +1,69 @@
+syntax = "proto3";
+
+package user;
+
+// ============================================================================
+// UserService Definition
+// ============================================================================
+// This interface defines all RPC communication contracts exposed by user-service.
+// It showcases the 3 core streaming/call patterns + metadata-based authentication.
+service UserService {
+  // 1. Unary RPC (Client sends 1 request, Server returns 1 response)
+  // Protected by demo authentication metadata: requires 'authorization: Bearer demo-token'
+  rpc GetUser(GetUserRequest) returns (GetUserResponse);
+
+  // 2. Server Streaming RPC (Client sends 1 request, Server returns a stream of responses)
+  // Used to stream user order history/status entries progressively
+  rpc GetUserOrders(GetUserOrdersRequest) returns (stream OrderStreamResponse);
+
+  // 3. Bi-directional Streaming RPC (Both Client and Server send independent message streams)
+  // Used for real-time order tracking: courier sends location updates, server responds with ETA/status
+  rpc TrackOrder(stream OrderLocationEvent) returns (stream TrackOrderStatusUpdate);
+}
+
+// ============================================================================
+// Message Definitions
+// ============================================================================
+
+// 1. Messages for Unary RPC (GetUser)
+message GetUserRequest {
+  string user_id = 1;
+}
+
+message GetUserResponse {
+  string id = 1;
+  string name = 2;
+  string email = 3;
+  string role = 4;
+}
+
+// 2. Messages for Server Streaming RPC (GetUserOrders)
+message GetUserOrdersRequest {
+  string user_id = 1;
+}
+
+message OrderStreamResponse {
+  string order_id = 1;
+  string user_id = 2;
+  string item_name = 3;
+  double amount = 4;
+  string status = 5;
+  string timestamp = 6;
+}
+
+// 3. Messages for Bi-directional Streaming RPC (TrackOrder)
+message OrderLocationEvent {
+  string order_id = 1;
+  string courier_id = 2;
+  double latitude = 3;
+  double longitude = 4;
+  string note = 5;
+}
+
+message TrackOrderStatusUpdate {
+  string order_id = 1;
+  string status = 2;
+  string estimated_delivery = 3;
+  string message = 4;
+  string timestamp = 5;
+}

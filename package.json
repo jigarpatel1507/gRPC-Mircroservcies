@@ -1,0 +1,30 @@
+{
+  "name": "grpc-node-ts-demo",
+  "version": "1.0.0",
+  "description": "Beginner-friendly industry-standard gRPC microservices demo with Node.js and TypeScript",
+  "type": "module",
+  "private": true,
+  "workspaces": [
+    "services/*"
+  ],
+  "scripts": {
+    "start:user": "tsx scripts/start-user-service.ts",
+    "start:order": "tsx scripts/start-order-service.ts",
+    "demo:unary": "tsx scripts/run-unary-demo.ts",
+    "demo:streaming": "tsx scripts/run-server-streaming-demo.ts",
+    "demo:bidi": "tsx scripts/run-bidi-streaming-demo.ts",
+    "demo:auth": "tsx scripts/run-auth-demo.ts",
+    "demo:all": "tsx scripts/run-all-demos.ts",
+    "typecheck": "tsc --noEmit -p services/user-service/tsconfig.json && tsc --noEmit -p services/order-service/tsconfig.json"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "dotenv": "^16.4.7",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.12.5",
+    "@grpc/proto-loader": "^0.7.13"
+  }
+}
