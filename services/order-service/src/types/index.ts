@@ -1,65 +1,16 @@
 /**
- * Type definitions for order-service and its gRPC client interactions with user-service.
+ * Re-exporting automatically generated TypeScript types and interfaces
+ * compiled directly from proto/user.proto via `npm run proto:generate`.
+ * 
+ * Do NOT manually create proto types here. Always update proto/user.proto
+ * and run `npm run proto:generate`.
  */
 
-export interface GetUserRequest {
-  user_id: string;
-}
-
-export interface GetUserResponse {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
-}
-
-export interface GetUserOrdersRequest {
-  user_id: string;
-}
-
-export interface OrderStreamResponse {
-  order_id: string;
-  user_id: string;
-  item_name: string;
-  amount: number;
-  status: string;
-  timestamp: string;
-}
-
-export interface OrderLocationEvent {
-  order_id: string;
-  courier_id: string;
-  latitude: number;
-  longitude: number;
-  note: string;
-}
-
-export interface TrackOrderStatusUpdate {
-  order_id: string;
-  status: string;
-  estimated_delivery: string;
-  message: string;
-  timestamp: string;
-}
-
-/**
- * gRPC UserService Client interface definition
- */
-export interface UserServiceClient {
-  getUser(
-    request: GetUserRequest,
-    metadata: import('@grpc/grpc-js').Metadata,
-    callback: (error: import('@grpc/grpc-js').ServiceError | null, response: GetUserResponse) => void
-  ): void;
-
-  getUserOrders(
-    request: GetUserOrdersRequest,
-    metadata: import('@grpc/grpc-js').Metadata
-  ): import('@grpc/grpc-js').ClientReadableStream<OrderStreamResponse>;
-
-  trackOrder(
-    metadata: import('@grpc/grpc-js').Metadata
-  ): import('@grpc/grpc-js').ClientDuplexStream<OrderLocationEvent, TrackOrderStatusUpdate>;
-
-  close(): void;
-}
+export type { GetUserRequest } from '../../../../proto/generated/user/GetUserRequest.js';
+export type { GetUserResponse } from '../../../../proto/generated/user/GetUserResponse.js';
+export type { GetUserOrdersRequest } from '../../../../proto/generated/user/GetUserOrdersRequest.js';
+export type { OrderStreamResponse } from '../../../../proto/generated/user/OrderStreamResponse.js';
+export type { OrderLocationEvent } from '../../../../proto/generated/user/OrderLocationEvent.js';
+export type { TrackOrderStatusUpdate } from '../../../../proto/generated/user/TrackOrderStatusUpdate.js';
+export type { UserServiceClient, UserServiceDefinition } from '../../../../proto/generated/user/UserService.js';
+export type { ProtoGrpcType } from '../../../../proto/generated/user.js';

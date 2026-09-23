@@ -237,8 +237,10 @@ export function trackOrder(
   // Listen for incoming location events from the client
   call.on('data', (event: OrderLocationEvent) => {
     eventCount++;
+    const lat = Number(event.latitude ?? 0).toFixed(4);
+    const lon = Number(event.longitude ?? 0).toFixed(4);
     console.log(
-      `[user-service] 📍 [Incoming Ping #${eventCount}] Order='${event.order_id}', Courier='${event.courier_id}', Pos=(${event.latitude.toFixed(4)}, ${event.longitude.toFixed(4)}), Note='${event.note}'`
+      `[user-service] 📍 [Incoming Ping #${eventCount}] Order='${event.order_id}', Courier='${event.courier_id}', Pos=(${lat}, ${lon}), Note='${event.note}'`
     );
 
     // Compute simulated ETA countdown

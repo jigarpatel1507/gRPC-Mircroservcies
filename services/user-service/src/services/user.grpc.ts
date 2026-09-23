@@ -4,6 +4,8 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import { getUser, getUserOrders, trackOrder } from '../handlers/user.handler.js';
 
+import type { ProtoGrpcType, UserServiceHandlers } from '../types/index.js';
+
 // Resolve directory name in ESM
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -26,21 +28,18 @@ export function registerUserService(server: grpc.Server): void {
     oneofs: true,
   });
 
-  // Convert loaded proto into a gRPC package definition
-  const protoDescriptor = grpc.loadPackageDefinition(packageDefinition) as unknown as {
-    user: {
-      UserService: grpc.ServiceClientConstructor;
-    };
-  };
-
+  // Convert loaded proto into strongly-typed gRPC package definition
+  const protoDescriptor = grpc.loadPackageDefinition(packageDefinition) as unknown as ProtoGrpcType;
   const userService = protoDescriptor.user.UserService;
 
-  // Bind service methods to handler functions
-  server.addService(userService.service, {
+  const handlers: UserServiceHandlers = {
     GetUser: getUser,
     GetUserOrders: getUserOrders,
     TrackOrder: trackOrder,
-  });
+  };
+
+  // Bind service methods to handler functions
+  server.addService(userService.service, handlers);
 
   console.log(`[user-service] 🔌 Registered methods on UserService: [GetUser, GetUserOrders, TrackOrder]`);
 }

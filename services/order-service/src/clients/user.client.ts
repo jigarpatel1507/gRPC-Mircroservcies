@@ -9,6 +9,8 @@ import {
   OrderStreamResponse,
   OrderLocationEvent,
   TrackOrderStatusUpdate,
+  UserServiceClient,
+  ProtoGrpcType,
 } from '../types/index.js';
 import { createAuthMetadata } from '../auth/metadata.js';
 
@@ -16,33 +18,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROTO_PATH = path.resolve(__dirname, '../../../../proto/user.proto');
 
-interface ProtoGrpcType {
-  user: {
-    UserService: {
-      new (address: string, credentials: grpc.ChannelCredentials): RawUserServiceClient;
-    };
-  };
-}
-
-interface RawUserServiceClient extends grpc.Client {
-  GetUser(
-    request: GetUserRequest,
-    metadata: grpc.Metadata,
-    callback: (error: grpc.ServiceError | null, response: GetUserResponse) => void
-  ): grpc.ClientUnaryCall;
-
-  GetUserOrders(
-    request: GetUserOrdersRequest,
-    metadata: grpc.Metadata
-  ): grpc.ClientReadableStream<OrderStreamResponse>;
-
-  TrackOrder(
-    metadata: grpc.Metadata
-  ): grpc.ClientDuplexStream<OrderLocationEvent, TrackOrderStatusUpdate>;
-}
-
 export class UserServiceClientWrapper {
-  private client: RawUserServiceClient;
+  private client: UserServiceClient;
   private readonly targetAddress: string;
 
   constructor(targetAddress?: string) {
@@ -78,6 +55,9 @@ export class UserServiceClientWrapper {
       this.client.GetUser(request, effectiveMetadata, (error, response) => {
         if (error) {
           return reject(error);
+        }
+        if (!response) {
+          return reject(new Error('Empty response received from user-service'));
         }
         resolve(response);
       });

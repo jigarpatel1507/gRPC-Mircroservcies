@@ -8,6 +8,7 @@
     "services/*"
   ],
   "scripts": {
+    "proto:generate": "proto-loader-gen-types --keepCase --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --importFileExtension=.js --outDir=proto/generated proto/user.proto",
     "start:user": "tsx scripts/start-user-service.ts",
     "start:order": "tsx scripts/start-order-service.ts",
     "demo:unary": "tsx scripts/run-unary-demo.ts",
@@ -24,6 +25,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@bufbuild/protobuf": "^2.15.0",
     "@grpc/grpc-js": "^1.12.5",
     "@grpc/proto-loader": "^0.7.13"
   }
