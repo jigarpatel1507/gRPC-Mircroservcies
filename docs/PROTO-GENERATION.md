@@ -4,7 +4,7 @@ This document explains why and how TypeScript types are automatically generated 
 
 ---
 
-## 1. Why Automatic Type Generation? (What your Senior is pointing out)
+## 1. Why Automatic Type Generation?
 
 In beginner demos, developers often write manual TypeScript interfaces to mirror `.proto` messages:
 
